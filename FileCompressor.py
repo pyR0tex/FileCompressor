@@ -1,12 +1,13 @@
 import argparse
 import os, sys
+from collections import Counter
 
 def Main(args):
-    print("     File Compressor")
+    print("\n        --- File Compressor --- \n")
     # if input file provided
     if args.File:
         fileName = str(args.File)
-        getFrequency(fileName)
+        frequency = getFrequency(fileName)
     return
 
 def getFrequency(filename):
@@ -14,7 +15,11 @@ def getFrequency(filename):
     try:
         with open(file) as f:
             content = f.read()
-            
+        if not content:
+            raise Exception('   file is empty')
+        frequency = Counter(content)
+        print(f"        Frequencies: \n {dict(frequency)}")
+        return frequency
     except Exception as e:
         print(f"     error: {e}")
         sys.exit(1)
