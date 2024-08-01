@@ -1,44 +1,55 @@
 import argparse
 import os, sys
-from collections import Counter
+import HuffmanCompression
 
 def Main(args):
     print("\n        --- File Compressor --- \n")
-    # if input file provided
-    if args.File:
-        fileName = str(args.File)
-        frequency = getFrequency(fileName)
-    return
 
-def getFrequency(filename):
-    file = filename
-    try:
-        with open(file) as f:
+    # switch cases for optional arguments
+    fileName = args.file
+    if args.compress:
+        '''
+        COMPRESS
+        '''
+        with open(fileName) as f:
             content = f.read()
-        if not content:
-            raise Exception('   file is empty')
-        frequency = Counter(content)
-        print(f"        Frequencies: \n {dict(frequency)}")
-        return frequency
-    except Exception as e:
-        print(f"     error: {e}")
-        sys.exit(1)
+            huffman = HuffmanCompression.compress(content)
 
+    elif args.decompress:
+        '''
+        DECOMPRESS
+        '''
+        print("decompress")
+        pass
+    elif args.test:
+        pass
+    
 def SetupArgs():
     argParser = argparse.ArgumentParser(
-        prog="File Compressor",
-        description=" -- compresses a text file using Huffman Codes to encode/decode the text"
+        prog="FileCompressor.py",
+        description="Compresses a text file using Huffman Codes to encode/decode the text"
     )
     argParser.add_argument(
-        'File',
-        nargs='?',
-        help='-- provide a file to compress'
+        'file',
+        type=str,
+        help='-- provide a file to compress/decompress'
+    )
+    argParser.add_argument(
+        '-c',
+        '--compress',
+        action='store_true',
+        help=' -- compress the file'
+    )
+    argParser.add_argument(
+        '-d',
+        '--decompress',
+        action='store_true',
+        help=' -- decompress the file'
     )
     argParser.add_argument(
         '-t',
         '--test',
-        nargs='?',
-        help='-- run the test suite'
+        help=' -- run the test suite'
     )
     args = argParser.parse_args()
     return args
