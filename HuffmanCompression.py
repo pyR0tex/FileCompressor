@@ -70,5 +70,15 @@ def encode(content: str) -> dict:
 def decode(frequency: dict, binaryCode: str) -> str:
     decoded = ""
     root = buildHuffmanTree(frequency)
-    print(root)
+    curr = root
+    for char in binaryCode:
+        if curr.char is not None:
+            decoded += curr.char
+            curr = root
+        if char == '0':
+            curr = curr.left
+        elif char == '1':
+            curr = curr.right
+    decoded += curr.char
+    # print(decoded)
     return decoded
