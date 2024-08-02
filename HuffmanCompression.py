@@ -69,5 +69,6 @@ def encode(content: str) -> dict:
 
 def decode(frequency: dict, binaryCode: str) -> str:
     decoded = ""
-    
+    root = buildHuffmanTree(frequency)
+    print(root)
     return decoded
