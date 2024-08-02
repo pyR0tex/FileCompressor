@@ -6,7 +6,7 @@ built in python
 ## Prerequisites:
   - clone the repo to your machine:
     ```
-    git clone https://github.com/Perchinka/ownCompress.git
+    git clone https://github.com/pyR0tex/HuffmanCompressor.git
     ```
   - create a virtual environment
 
