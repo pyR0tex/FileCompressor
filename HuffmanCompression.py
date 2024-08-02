@@ -24,7 +24,7 @@ def getFrequency(fileContent):
     frequency_unsorted = Counter(content)
     frequency_sorted = sorted(frequency_unsorted.items(), key=lambda item: item[1])
     frequency = dict(frequency_sorted[::-1])
-    print(f"        Frequencies: \n {dict(frequency)}")
+    # print(f"      Frequencies: \n {dict(frequency)}")
     return frequency
 
 def buildHuffmanTree(nodes: dict) -> HuffmanNode:
@@ -48,13 +48,14 @@ def generateHuffmanCodes(node: HuffmanNode, binaryCode="", huffmanCodes={}) -> d
         generateHuffmanCodes(node.right, binaryCode+"1", huffmanCodes)
     return huffmanCodes
     
-
+def encode(binaryCodes, fileContent):
+    code = ""
+    for char in fileContent:
+        code += binaryCodes[char]
+    return code
 # return the compressed file items
-def compress(content: str):
-    print("compress")
+def getHuffmanCodes(content: str):
     frequency = getFrequency(content)
     huffmanTree = buildHuffmanTree(frequency)
     binaryCodes = generateHuffmanCodes(huffmanTree)
-    for c,b in binaryCodes.items():
-        print(f"char: {c}, code: {b}")
-    return frequency
+    return binaryCodes
