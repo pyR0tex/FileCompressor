@@ -48,14 +48,26 @@ def generateHuffmanCodes(node: HuffmanNode, binaryCode="", huffmanCodes={}) -> d
         generateHuffmanCodes(node.right, binaryCode+"1", huffmanCodes)
     return huffmanCodes
     
-def encode(binaryCodes, fileContent):
+def generateBinaryCode(binaryCodes, fileContent):
     code = ""
     for char in fileContent:
         code += binaryCodes[char]
     return code
-# return the compressed file items
-def getHuffmanCodes(content: str):
+
+# return the huffman codes
+def encode(content: str) -> dict:
+    encoded = {}
     frequency = getFrequency(content)
     huffmanTree = buildHuffmanTree(frequency)
     binaryCodes = generateHuffmanCodes(huffmanTree)
-    return binaryCodes
+    binaryCode = generateBinaryCode(binaryCodes, content)
+    encoded["frequency"] = frequency
+    encoded["codes"] = binaryCodes
+    encoded["binaryCode"] = binaryCode
+
+    return encoded
+
+def decode(frequency: dict, binaryCode: str) -> str:
+    decoded = ""
+    
+    return decoded

@@ -1,9 +1,10 @@
 import argparse
 import os, sys
-from HuffmanCompression import getHuffmanCodes, encode 
+import ast
+from HuffmanCompression import encode, decode
 
 def Main(args):
-    print("\n        --- File Compressor --- \n")
+    print("\n  --- File Compressor --- \n")
 
     # switch cases for optional arguments
     
@@ -15,29 +16,45 @@ def Main(args):
         print(f"      encoding...\n")
         with open(fileName) as f:
             content = f.read()
-            huffman_codes = getHuffmanCodes(content)
-            # for c,b in huffman_codes.items():
-            #     print(f"char: {c}, code: {b}")
-            # print(huffman_codes)
-            binary_code = encode(huffman_codes, content)
+            encoded = encode(content)
             outputFile = "output/" + os.path.splitext(os.path.basename(fileName))[0] + ".encoded"
             print(f"      encoded file: {outputFile}\n")
             with open(outputFile, 'w') as outFile:
-                outFile.write(f"{huffman_codes}\n")
-                outFile.write(f"{binary_code}")
+                outFile.write(f"{encoded}\n")
         return
-    elif args.decode:
+    
+    if args.decode:
         '''
         DECOMPRESS
         '''
-        print("      decoding...\n")
-        pass
-    elif args.test:
+        fileName = args.decode
+        if os.path.splitext(os.path.basename(fileName))[1] != ".encoded":
+            print("      error: provide a file with extenstion '.encoded' to decode\n")
+            sys.exit(1)
+        else:
+            print("      decoding...\n")
+        with open(fileName, 'r') as f:
+            content = f.readlines()
+            encoded = eval(content[0])
+            frequency = encoded["frequency"]
+            # huffmanCodes = encoded["codes"]
+            binaryCode = encoded["binaryCode"]
+            # get the decoded text
+            decoded = decode(frequency, binaryCode)
+
+            outputFile = "output/" + os.path.splitext(os.path.basename(fileName))[0] + ".decoded"
+            print(f"      decoded file: {outputFile}\n")
+            with open(outputFile, 'w') as outFile:
+                outFile.write(f"{decoded}")
+                
+        return
+    if args.test:
         '''
         RUN TEST CASES
         '''
+        print("      running test cases...\n")
         pass
-    elif args.clean:
+    if args.clean:
         print("      cleaning output...\n")
         CleanOutput()
 
